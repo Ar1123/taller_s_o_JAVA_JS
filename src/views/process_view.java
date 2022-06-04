@@ -4,8 +4,7 @@
  */
 package views;
 
-import controller.ProcessBuilderController;
-import controller.ProcessHandlerController;
+import controller.*;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,9 +14,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class process_view extends javax.swing.JFrame {
     
-    ProcessHandlerController procces;
-    private DefaultTableModel ModT;
-    ProcessBuilderController pr;
+    private final DefaultTableModel ModT;
+    private final Controller controller;
 
     /**
      * Creates new form process_view
@@ -25,13 +23,8 @@ public class process_view extends javax.swing.JFrame {
     public process_view() {
         
         initComponents();
-        this.procces = new ProcessHandlerController();
-        this.pr = new ProcessBuilderController();
+        this.controller = new Controller();
         ModT = (DefaultTableModel) tab.getModel();
-        
-    }
-    
-    private void mostrar() {
         
     }
 
@@ -45,17 +38,28 @@ public class process_view extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cb1 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tab = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        bt1 = new javax.swing.JButton();
+        tf1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb1.setBackground(new java.awt.Color(255, 255, 255));
+        cb1.setForeground(new java.awt.Color(255, 255, 255));
+        cb1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mayo uso CPU", "Menor uso CPU", "Mayor uso RAM", "Menos uso RAM", "Procesos del sistema", "Procesos de usuario" }));
+        cb1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb1ActionPerformed(evt);
+            }
+        });
 
+        tab.setBackground(new java.awt.Color(255, 255, 255));
+        tab.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        tab.setForeground(new java.awt.Color(0, 0, 102));
         tab.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -81,10 +85,10 @@ public class process_view extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tab);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bt1.setText("Buscar");
+        bt1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bt1ActionPerformed(evt);
             }
         });
 
@@ -94,22 +98,28 @@ public class process_view extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addComponent(cb1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 901, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cb1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt1)
+                    .addComponent(tf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -126,9 +136,9 @@ public class process_view extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt1ActionPerformed
         ArrayList<String> result = new ArrayList<>();
-        result = pr.getProcess();
+        result = this.controller.processBuilder.getProcess();
         int n = result.size();
         ModT.setRowCount(n);        
         
@@ -142,9 +152,14 @@ public class process_view extends javax.swing.JFrame {
             ModT.setValueAt(row[1], i, 4);//Descripcion
             ModT.setValueAt((row[13].contains("SYSTEM")) ? "1" : "0", i, 5);//Prioridad
         }
+       this.controller.processManager.filterProcess(result, 6);
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bt1ActionPerformed
+
+    private void cb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,10 +197,11 @@ public class process_view extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton bt1;
+    private javax.swing.JComboBox<String> cb1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tab;
+    private javax.swing.JTextField tf1;
     // End of variables declaration//GEN-END:variables
 }

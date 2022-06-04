@@ -12,7 +12,7 @@ public class ProcessBuilderController {
     private ProcessBuilder pb;
     private Process p;
     private BufferedReader br;
-    private ArrayList<String> processLists = new ArrayList();
+    private final ArrayList<String> processLists = new ArrayList();
 
     public ProcessBuilderController() {
     }
