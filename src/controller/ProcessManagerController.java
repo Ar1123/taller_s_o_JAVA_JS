@@ -1,17 +1,12 @@
 package controller;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import model.ProcessModel;
 
-/**
- *
- * @author Laptop Asus M415DA
- */
 public class ProcessManagerController {
 
-    private final ArrayList<ProcessModel> processListp = new ArrayList<>();
     private final ArrayList<ProcessModel> processListp2 = new ArrayList<>();
-    private ProcessModel processModel;
     private ProcessModel[] vecpr;
 
     public ProcessManagerController() {
@@ -74,15 +69,27 @@ public class ProcessManagerController {
     }
 
     private void MayorCpu() {
-
-        for (int i = 0; i < vecpr.length; i++) {
-            System.out.println(vecpr[i].getCpu());
+        for (int i = 1; i < vecpr.length; i++) {
+            for (int j = 0; j < (vecpr.length - i); j++) {
+                Time eval1 = Time.valueOf(vecpr[j].getCpu());
+                Time eval2 = Time.valueOf(vecpr[j + 1].getCpu());
+                changePosition(j, j + 1, (eval1.compareTo(eval2) < 0));
+            }
         }
+
         System.out.println("mayor cpu");
 
     }
 
     private void MenorCpu() {
+        for (int i = 1; i < vecpr.length; i++) {
+            for (int j = 0; j < (vecpr.length - i); j++) {
+                Time eval1 = Time.valueOf(vecpr[j].getCpu());
+                Time eval2 = Time.valueOf(vecpr[j + 1].getCpu());
+                changePosition(j, j + 1, (eval1.compareTo(eval2) > 0));
+            }
+        }
+
         System.out.println("menor cpu");
     }
 
@@ -99,12 +106,10 @@ public class ProcessManagerController {
     private void changePosition(int p1, int p2, boolean condtition) {
 
         if (condtition) {
-
             ProcessModel pm;
             pm = vecpr[p1];
             vecpr[p1] = vecpr[p2];
             vecpr[p2] = pm;
         }
-
     }
 }
