@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import model.ProcessModel;
 
 public class ProcessBuilderController {
@@ -92,7 +93,9 @@ public class ProcessBuilderController {
             //[14]Tiempo CPU,[15]
             //[16]Titulo de ventana,[17],
             for (int i = 0; i < localprocessLists.size(); i++) {
+
                 String[] row = localprocessLists.get(i).replace(",", ":").split(":");
+
                 processModel = new ProcessModel();
                 processModel.setPid(Integer.parseInt(row[3].trim()));
                 processModel.setName(row[1].trim());
@@ -100,7 +103,7 @@ public class ProcessBuilderController {
                 processModel.setDescription(row[1].trim());
                 processModel.setPriority((row[13].contains("SYSTEM")) ? '1' : '0');
                 processModel.setMemory(row[9].trim());
-                processModel.setCpu(row[15].trim());
+                processModel.setCpu(row[15].trim() + ":" + row[16] + ":" + row[17]);
                 processLists.add(processModel);
             }
         } catch (IOException ex) {

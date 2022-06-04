@@ -12,16 +12,19 @@ public class ProcessManagerController {
     private final ArrayList<ProcessModel> processListp = new ArrayList<>();
     private final ArrayList<ProcessModel> processListp2 = new ArrayList<>();
     private ProcessModel processModel;
+    private ProcessModel[] vecpr;
 
     public ProcessManagerController() {
     }
 //processList: la lista de procesos, type: el tipo de evento ejecutar
 
     public ArrayList<ProcessModel> filterProcess(ArrayList<ProcessModel> processList, int type) {
-    processList.forEach(e -> {
-            llenar(e);
-        });
-    
+        vecpr = new ProcessModel[processList.size()];
+
+        for (int i = 0; i < processList.size(); i++) {
+            vecpr[i] = processList.get(i);
+        }
+
         switch (type) {
             case 1:
                 MayorCpu();
@@ -47,29 +50,36 @@ public class ProcessManagerController {
     }
 
     private void MayorRam() {
-        ProcessModel temp = new ProcessModel();
-        for (int i = 0; i < processListp.size(); i++) {
-            System.out.println(Float.parseFloat(processListp.get(i).getMemory().replace("KB", "").trim().replace(".", "")));
-            for (int j = 1; j < (processListp.size() - i); j++) {
+        for (int i = 1; i < vecpr.length; i++) {
+            for (int j = 0; j < (vecpr.length - i); j++) {
+                float eval1 = Float.parseFloat(vecpr[j].getMemory().replace("KB", "").trim().replace(".", ""));
+                float eval2 = Float.parseFloat(vecpr[j + 1].getMemory().replace("KB", "").trim().replace(".", ""));
 
+                changePosition(j, j + 1, (eval1 > eval2));
             }
-
         }
-        System.out.println("mayor ram");
     }
 
     private void MenorRam() {
-        processListp.forEach(e -> {
 
-        });
-        System.out.println("menor ram");
+        for (int i = 1; i < vecpr.length; i++) {
+            for (int j = 0; j < (vecpr.length - i); j++) {
+                float eval1 = Float.parseFloat(vecpr[j].getMemory().replace("KB", "").trim().replace(".", ""));
+                float eval2 = Float.parseFloat(vecpr[j + 1].getMemory().replace("KB", "").trim().replace(".", ""));
+
+                changePosition(j, j + 1, (eval1 < eval2));
+            }
+        }
+
     }
 
     private void MayorCpu() {
-        processListp.forEach(e -> {
 
-        });
+        for (int i = 0; i < vecpr.length; i++) {
+            System.out.println(vecpr[i].getCpu());
+        }
         System.out.println("mayor cpu");
+
     }
 
     private void MenorCpu() {
@@ -77,36 +87,24 @@ public class ProcessManagerController {
     }
 
     private void usuario() {
-        processListp.forEach(e -> {
 
-        });
         System.out.println("usuario");
     }
 
     private void sistema() {
-        processListp.forEach(e -> {
 
-        });
         System.out.println("sistema");
     }
-    
-    
-    private void llenar(ProcessModel pm ){
-    
-            processModel = new ProcessModel();
-            processModel.setPid(pm.getPid());
-            processModel.setName(pm.getName());
-            processModel.setUser(pm.getUser());
-            processModel.setDescription(pm.getDescription());
-            processModel.setPriority(pm.getPriority());
-            processModel.setMemory(pm.getMemory());
-            processModel.setCpu(pm.getCpu());
-            processListp.add(processModel);
 
-}
-    
-    private void changePosition(int position1, int position2){
-            
-        
+    private void changePosition(int p1, int p2, boolean condtition) {
+
+        if (condtition) {
+
+            ProcessModel pm;
+            pm = vecpr[p1];
+            vecpr[p1] = vecpr[p2];
+            vecpr[p2] = pm;
+        }
+
     }
 }
