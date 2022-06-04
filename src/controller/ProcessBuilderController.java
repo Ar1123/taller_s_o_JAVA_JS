@@ -5,14 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
+import model.ProcessModel;
 
 public class ProcessBuilderController {
 
     private ProcessBuilder pb;
     private Process p;
     private BufferedReader br;
-    private final ArrayList<String> processLists = new ArrayList();
+    private final ArrayList<ProcessModel> processLists = new ArrayList();
+    private ProcessModel processModel;
 
     public ProcessBuilderController() {
     }
@@ -91,8 +92,16 @@ public class ProcessBuilderController {
             //[14]Tiempo CPU,[15]
             //[16]Titulo de ventana,[17],
             for (int i = 0; i < localprocessLists.size(); i++) {
-
-                processLists.add(Arrays.toString(localprocessLists.get(i).split(":")));
+                String[] row = localprocessLists.get(i).replace(",", ":").split(":");
+                processModel = new ProcessModel();
+                processModel.setPid(Integer.parseInt(row[3].trim()));
+                processModel.setName(row[1].trim());
+                processModel.setUser(row[13].trim());
+                processModel.setDescription(row[1].trim());
+                processModel.setPriority((row[13].contains("SYSTEM")) ? '1' : '0');
+                processModel.setMemory(row[9].trim());
+                processModel.setCpu(row[15].trim());
+                processLists.add(processModel);
             }
         } catch (IOException ex) {
             System.out.println("F x tí :( Error al formar array: " + ex);
@@ -104,7 +113,7 @@ public class ProcessBuilderController {
         p.destroy();
     }
 
-    public ArrayList<String> getProcess() {
+    public ArrayList<ProcessModel> getProcess() {
         executeCommand();//Ejecutar comando
         resultReading();//Obtener reesultado
         orderProcess();// se crea el vector con el resultado obtenido
