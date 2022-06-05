@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import model.ProcessModel;
 
 public class ProcessManagerController {
@@ -15,11 +16,10 @@ public class ProcessManagerController {
 
     public ArrayList<ProcessModel> filterProcess(ArrayList<ProcessModel> processList, int type) {
         vecpr = new ProcessModel[processList.size()];
-
+        processListp2.clear();
         for (int i = 0; i < processList.size(); i++) {
             vecpr[i] = processList.get(i);
         }
-
         switch (type) {
             case 1:
                 MayorCpu();
@@ -41,6 +41,10 @@ public class ProcessManagerController {
                 break;
 
         }
+        processListp2.forEach(e -> {
+            System.out.println(e.getName() + ", " + e.getPid());
+        });
+
         return processListp2;
     }
 
@@ -53,6 +57,7 @@ public class ProcessManagerController {
                 changePosition(j, j + 1, (eval1 > eval2));
             }
         }
+        processListp2.addAll(Arrays.asList(vecpr));
     }
 
     private void MenorRam() {
@@ -65,7 +70,7 @@ public class ProcessManagerController {
                 changePosition(j, j + 1, (eval1 < eval2));
             }
         }
-
+        processListp2.addAll(Arrays.asList(vecpr));
     }
 
     private void MayorCpu() {
@@ -77,7 +82,9 @@ public class ProcessManagerController {
             }
         }
 
+        processListp2.addAll(Arrays.asList(vecpr));
         System.out.println("mayor cpu");
+        System.out.println("_________________________________________________");
 
     }
 
@@ -89,13 +96,17 @@ public class ProcessManagerController {
                 changePosition(j, j + 1, (eval1.compareTo(eval2) > 0));
             }
         }
-
+        processListp2.addAll(Arrays.asList(vecpr));
         System.out.println("menor cpu");
+        System.out.println("_________________________________________________");
+
     }
 
     private void usuario() {
 
-        System.out.println("usuario");
+        for (int i = 0; i < 10; i++) {
+
+        }
     }
 
     private void sistema() {
@@ -111,5 +122,6 @@ public class ProcessManagerController {
             vecpr[p1] = vecpr[p2];
             vecpr[p2] = pm;
         }
+
     }
 }

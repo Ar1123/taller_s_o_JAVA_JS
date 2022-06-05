@@ -20,12 +20,23 @@ public class process_view extends javax.swing.JFrame {
 
     private void processFilter() {
         ArrayList<ProcessModel> result = new ArrayList<>();
-        result 
-                = this.controller.processBuilder.getProcess();
-        int n = result.size();
-        ModT.setRowCount(n);
+        ArrayList<ProcessModel> result2 = new ArrayList<>();
+
+        result = this.controller.processBuilder.getProcess();
         int selectedIndex = cb1.getSelectedIndex();
-        this.controller.processManager.filterProcess(result, selectedIndex + 1);
+        result2 = this.controller.processManager.filterProcess(result, selectedIndex + 1);
+        int n = result2.size();
+        ModT.setRowCount(n);
+
+        for (int i = 0; i < n; i++) {
+
+            ModT.setValueAt(i + 1 + "", i, 0);//Indice
+            ModT.setValueAt(result2.get(i).getPid(), i, 1);//Pid
+            ModT.setValueAt(result2.get(i).getName(), i, 2);//Nombre
+            ModT.setValueAt(result2.get(i).getUser(), i, 3);//Usuario
+            ModT.setValueAt(result2.get(i).getDescription(), i, 4);//Descripcion
+            ModT.setValueAt(result2.get(i).getPriority(), i, 5);//Prioridad
+        }
         result.clear();
     }
 
@@ -135,19 +146,8 @@ public class process_view extends javax.swing.JFrame {
     private void bt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt1ActionPerformed
 //        ArrayList<ProcessModel> result = new ArrayList<>();
 //        result = this.controller.processBuilder.getProcess();
-//        int n = result.size();
-//        ModT.setRowCount(n);
-//
-//        for (int i = 0; i < result.size(); i++) {
-//
-//            ModT.setValueAt(i + 1 + "", i, 0);//Indice
-//            ModT.setValueAt(result.get(i).getPid(), i, 1);//Pid
-//            ModT.setValueAt(result.get(i).getName(), i, 2);//Nombre
-//            ModT.setValueAt(result.get(i).getUser(), i, 3);//Usuario
-//            ModT.setValueAt(result.get(i).getDescription(), i, 4);//Descripcion
-//            ModT.setValueAt(result.get(i).getPriority(), i, 5);//Prioridad
-//        }
-             processFilter();
+//     
+        processFilter();
         // TODO add your handling code here:
     }//GEN-LAST:event_bt1ActionPerformed
 
