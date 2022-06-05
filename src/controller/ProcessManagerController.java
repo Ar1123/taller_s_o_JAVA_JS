@@ -104,14 +104,22 @@ public class ProcessManagerController {
 
     private void usuario() {
 
-        for (int i = 0; i < 10; i++) {
-
+        for (ProcessModel vecpr1 : vecpr) {
+            if (!vecpr1.getUser().contains("SYSTEM")) {
+                System.out.println(vecpr1.getUser());
+                processListp2.add(vecpr1);
+            }
         }
     }
 
     private void sistema() {
 
-        System.out.println("sistema");
+        for (ProcessModel vecpr1 : vecpr) {
+            if (vecpr1.getUser().contains("SYSTEM")) {
+                System.out.println(vecpr1.getUser());
+                processListp2.add(vecpr1);
+            }
+        }
     }
 
     private void changePosition(int p1, int p2, boolean condtition) {
